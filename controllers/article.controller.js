@@ -18,7 +18,7 @@ const getMyArticles = async(req, res) => {
     if (!req.query.pageno)
         page = 1;
     try {
-        const number = await Article.countDocuments({})
+        const number = await Article.countDocuments({ owner: req.session.user._id })
         const articles = await Article.find({ owner: req.session.user._id }).populate('owner', { firstName: 1, lastName: 1, avatar: 1, _id: 0 }).sort({ createdAt: -1 }).skip((page - 1) * 6).limit(6)
         if (isNaN(page) || page < 1 || (number + 6 <= page * 6 && page != 1))
             return res.status(404).send()

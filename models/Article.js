@@ -44,7 +44,7 @@ ArticleSchema.methods.toJSON = function() {
 
 ArticleSchema.pre('save', function(next) {
     generalTools.copyFiles(this._id, this.text, this.owner)
-    this.text = this.text.replace(`temp/${this.owner}-temp`, `articles/${this._id}`);
+    this.text = this.text.replaceAll(`temp/${this.owner}-temp`, `articles/${this._id}`);
     next()
 });
 
